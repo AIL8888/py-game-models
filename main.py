@@ -16,10 +16,14 @@ def main() -> None:
             name=race_name,
             defaults={"description": race_desc or ""}
         )
+        skills = race_info.get("skills")
 
-        for skill_data in race_info.get("skills", []):
+        if skills is None:
+            continue
+
+        for skill_data in skills:
             Skill.objects.get_or_create(
-                name=skill_data["name"],
+                name=skill_data.get("name"),
                 defaults={
                     "bonus": skill_data.get("bonus", ""),
                     "race": race
